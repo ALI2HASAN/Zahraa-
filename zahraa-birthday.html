@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>عيد ميلاد زهراء 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Tajawal', sans-serif;
+      overflow: hidden;
+      background: #1a0a0f;
+    }
+
+    /* ===== BACKGROUND ===== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background-image: url('https://i.pinimg.com/736x/e9/9e/b2/e99eb248f5ab42c470ac3e724db434fa.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.55) saturate(1.2);
+      z-index: 0;
+      transform: scale(1.05);
+      animation: bgZoom 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgZoom {
+      from { transform: scale(1.05); }
+      to   { transform: scale(1.12); }
+    }
+
+    /* vignette */
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(20,5,10,0.7) 100%);
+    }
+
+    /* ===== PETALS ===== */
+    .petals-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -60px;
+      width: 18px;
+      height: 22px;
+      background: radial-gradient(ellipse at 40% 30%, #ffb7c5, #e8607a);
+      border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+      opacity: 0;
+      animation: fall linear infinite;
+      filter: drop-shadow(0 2px 4px rgba(200,50,80,0.3));
+    }
+
+    @keyframes fall {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.8); }
+      10%  { opacity: 0.85; }
+      90%  { opacity: 0.7; }
+      100% { opacity: 0; transform: translateY(110vh) rotate(540deg) scale(1.1); }
+    }
+
+    /* ===== CENTER CONTENT ===== */
+    .scene {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ===== ENVELOPE BUTTON ===== */
+    #open-btn {
+      position: relative;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      animation: floatBtn 3s ease-in-out infinite;
+    }
+
+    @keyframes floatBtn {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    .envelope-wrap {
+      position: relative;
+      width: 180px;
+      height: 130px;
+      filter: drop-shadow(0 8px 32px rgba(230,80,120,0.55));
+      transition: transform 0.3s;
+    }
+
+    #open-btn:hover .envelope-wrap { transform: scale(1.08); }
+
+    .env-body {
+      position: absolute;
+      bottom: 0;
+      width: 180px;
+      height: 110px;
+      background: linear-gradient(160deg, #fce4ec, #f48fb1);
+      border-radius: 6px 6px 14px 14px;
+      box-shadow: 0 4px 20px rgba(180,40,80,0.3);
+    }
+
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left:  90px solid transparent;
+      border-right: 90px solid transparent;
+      border-top:   70px solid #f06292;
+      border-radius: 2px;
+      transform-origin: top center;
+      transition: transform 0.6s ease;
+    }
+
+    #open-btn:hover .env-flap {
+      transform: rotateX(-160deg);
+    }
+
+    .env-heart {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      30%       { transform: translateX(-50%) scale(1.25); }
+      60%       { transform: translateX(-50%) scale(0.95); }
+    }
+
+    .btn-label {
+      color: #fff;
+      font-size: 1.15rem;
+      font-family: 'Amiri', serif;
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 10px 28px;
+      border-radius: 50px;
+      backdrop-filter: blur(6px);
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    #open-btn:hover .btn-label {
+      background: rgba(255,255,255,0.22);
+      transform: scale(1.05);
+    }
+
+    /* ===== CARD ===== */
+    #card {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      animation: cardReveal 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
+      max-width: 480px;
+      width: 92vw;
+    }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: scale(0.7) translateY(40px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .card-inner {
+      background: rgba(255,240,245,0.14);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,200,210,0.35);
+      border-radius: 28px;
+      padding: 40px 36px 34px;
+      box-shadow:
+        0 8px 40px rgba(200,40,80,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-inner::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(255,150,180,0.18), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .card-roses {
+      font-size: 2.4rem;
+      letter-spacing: 6px;
+      animation: rosesBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes rosesBounce {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.12); }
+    }
+
+    .card-name {
+      font-family: 'Amiri', serif;
+      font-size: 2.8rem;
+      font-style: italic;
+      color: #ffe0eb;
+      text-shadow: 0 0 24px rgba(255,120,160,0.6), 0 2px 8px rgba(0,0,0,0.4);
+      line-height: 1.1;
+    }
+
+    .card-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,220,230,0.9);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+
+    .divider {
+      width: 70px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #f48fb1, transparent);
+      border-radius: 2px;
+    }
+
+    .card-msg {
+      font-family: 'Amiri', serif;
+      font-size: 1.22rem;
+      color: #fff5f8;
+      line-height: 2;
+      text-align: center;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.35);
+    }
+
+    .card-footer {
+      font-size: 0.9rem;
+      color: rgba(255,200,215,0.75);
+      font-style: italic;
+    }
+
+    /* ===== CANDLES ROW ===== */
+    .candles {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .candle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      animation: candleWobble 1.8s ease-in-out infinite;
+    }
+
+    .candle:nth-child(2) { animation-delay: 0.3s; }
+    .candle:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes candleWobble {
+      0%, 100% { transform: rotate(-2deg); }
+      50%       { transform: rotate(2deg); }
+    }
+
+    .flame {
+      width: 10px;
+      height: 16px;
+      background: radial-gradient(ellipse at 50% 80%, #fff176, #ffb300 50%, #ff6d00);
+      border-radius: 50% 50% 30% 30%;
+      box-shadow: 0 0 8px 3px rgba(255,180,0,0.5);
+      animation: flameDance 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes flameDance {
+      from { transform: scaleX(1) scaleY(1); opacity: 1; }
+      to   { transform: scaleX(0.85) scaleY(1.1); opacity: 0.85; }
+    }
+
+    .stick {
+      width: 10px;
+      height: 32px;
+      background: linear-gradient(180deg, #ffccbc, #ff8a65);
+      border-radius: 0 0 4px 4px;
+    }
+
+    /* ===== MUSIC NOTE ===== */
+    .music-note {
+      position: fixed;
+      font-size: 1.4rem;
+      pointer-events: none;
+      z-index: 5;
+      animation: noteFloat 3s ease-in-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes noteFloat {
+      0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+      20%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-120px) scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+
+  <!-- Falling petals -->
+  <div class="petals-container" id="petals"></div>
+
+  <!-- Audio -->
+  <audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg"/>
+  </audio>
+
+  <div class="scene">
+
+    <!-- ENVELOPE BUTTON -->
+    <button id="open-btn" onclick="openCard()">
+      <div class="envelope-wrap">
+        <div class="env-body"></div>
+        <div class="env-flap"></div>
+        <div class="env-heart">💌</div>
+      </div>
+      <span class="btn-label">✨ Open Your Message, Zahraa ✨</span>
+    </button>
+
+    <!-- BIRTHDAY CARD -->
+    <div id="card">
+      <div class="candles">
+        <div class="candle"><div class="flame"></div><div class="stick"></div></div>
+        <div class="candle"><div class="flame"></div><div class="stick"></div></div>
+        <div class="candle"><div class="flame"></div><div class="stick"></div></div>
+      </div>
+
+      <div class="card-inner">
+        <div class="card-roses">🌸🌺🌸</div>
+        <div class="card-name">زهراء</div>
+        <div class="card-subtitle">عيد ميلادٍ سعيدٍ يا زهراء</div>
+        <div class="divider"></div>
+        <p class="card-msg">
+          كلُّ عامٍ وأنتِ بخيرٍ، وكلُّ عامٍ وأنتِ على ما يُحبّه القلب من الصفاء والنقاء.<br/><br/>
+          لقد أقبل يومُ ميلادكِ كأنّه ضياءٌ خافتٌ في ليلٍ ساكن، فزاد الحياة بهاءً، وأضفى على الأيام لطفًا لا يُوصف.<br/><br/>
+          يا زهراء، ما أنتِ إلا نسمةٌ رقيقةٌ تمرّ فتترك في الروح أثرًا جميلاً لا يُنسى، وكأنّكِ معنى من معاني الجمال إذا تجلّى في صورة إنسان.<br/><br/>
+          أسأل الله أن يجعل أيامكِ القادمة أهدأ قلبًا، وأوسع رزقًا، وأجمل قدرًا، وأن يكتب لكِ من الخير ما يليق بكِ.<br/><br/>
+          <strong>وكلُّ عامٍ وأنتِ بخيرٍ وسلام 💕</strong>
+        </p>
+        <div class="divider"></div>
+        <div class="card-footer">🎂 Happy Birthday Zahraa 🎂</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== Generate petals =====
+    const petalsCont = document.getElementById('petals');
+    for (let i = 0; i < 22; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      const size = 12 + Math.random() * 14;
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        width: ${size}px;
+        height: ${size * 1.3}px;
+        animation-duration: ${5 + Math.random() * 7}s;
+        animation-delay: ${Math.random() * 8}s;
+        opacity: 0;
+        transform: rotate(${Math.random() * 360}deg);
+      `;
+      petalsCont.appendChild(p);
+    }
+
+    // ===== Open card =====
+    function openCard() {
+      document.getElementById('open-btn').style.display = 'none';
+      const card = document.getElementById('card');
+      card.style.display = 'flex';
+
+      // play music
+      const music = document.getElementById('music');
+      music.volume = 0.6;
+      music.play().catch(() => {});
+
+      // spawn music notes
+      spawnNotes();
+    }
+
+    function spawnNotes() {
+      const notes = ['🎵','🎶','♪','♫'];
+      setInterval(() => {
+        const n = document.createElement('div');
+        n.className = 'music-note';
+        n.textContent = notes[Math.floor(Math.random() * notes.length)];
+        n.style.left = (20 + Math.random() * 60) + 'vw';
+        n.style.bottom = (10 + Math.random() * 20) + 'vh';
+        n.style.animationDelay = '0s';
+        document.body.appendChild(n);
+        setTimeout(() => n.remove(), 3200);
+      }, 900);
+    }
+  </script>
+</body>
+</html>
