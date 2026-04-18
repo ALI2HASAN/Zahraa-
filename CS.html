@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate CS Study Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0e8;
+  --surface: #ede8df;
+  --surface2: #e3ddd3;
+  --ink: #1a1814;
+  --ink2: #3d3830;
+  --muted: #8a8070;
+  --accent: #c0392b;
+  --accent2: #2980b9;
+  --accent3: #27ae60;
+  --gold: #d4a017;
+  --border: #cdc7bc;
+  --tag-bg: #ddd8ce;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; line-height: 1.6; }
+
+.sidebar {
+  position: fixed; left: 0; top: 0; width: 220px; height: 100vh;
+  background: var(--ink); color: var(--bg); padding: 32px 0;
+  overflow-y: auto; z-index: 100; display: flex; flex-direction: column;
+}
+.sidebar-brand { padding: 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 16px; }
+.sidebar-brand .s-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: #fff; line-height: 1.3; }
+.sidebar-brand .s-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.35); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 24px; cursor: pointer; transition: background 0.2s; text-decoration: none; color: rgba(255,255,255,0.5); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; border-left: 2px solid transparent; }
+.nav-item:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.9); }
+.nav-item.active { color: #fff; border-left-color: var(--accent); background: rgba(192,57,43,0.1); }
+.nav-num { font-size: 8px; color: var(--accent); min-width: 16px; }
+.nav-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 8px 24px; }
+.sidebar-footer { margin-top: auto; padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.08); font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); line-height: 1.6; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.main { margin-left: 220px; min-height: 100vh; }
+
+.hero { background: var(--ink); color: var(--bg); padding: 80px 64px 64px; position: relative; overflow: hidden; }
+.hero::before { content: 'CS'; position: absolute; right: -20px; top: -40px; font-family: 'Playfair Display', serif; font-size: 280px; font-weight: 900; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; }
+.hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 20px; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 68px); font-weight: 900; line-height: 1.05; color: #fff; max-width: 640px; }
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero-desc { margin-top: 24px; font-size: 14px; color: rgba(255,255,255,0.45); max-width: 520px; line-height: 1.8; }
+.hero-stats { display: flex; gap: 48px; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: #fff; line-height: 1; }
+.stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+.legend-bar { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 12px 64px; display: flex; gap: 32px; flex-wrap: wrap; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+.l-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+.content { padding: 0 64px 80px; }
+
+.stage-section { padding-top: 64px; border-top: 2px solid var(--border); margin-top: 48px; }
+.stage-section:first-child { border-top: none; margin-top: 0; }
+.stage-meta { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 32px; }
+.stage-number { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 900; color: var(--surface2); line-height: 0.85; flex-shrink: 0; user-select: none; margin-top: 4px; }
+.stage-info { flex: 1; }
+.stage-tag { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; margin-bottom: 8px; }
+.tag-foundation { background: rgba(39,174,96,0.12); color: var(--accent3); }
+.tag-core { background: rgba(41,128,185,0.12); color: var(--accent2); }
+.tag-systems { background: rgba(192,57,43,0.12); color: var(--accent); }
+.tag-math { background: rgba(212,160,23,0.12); color: var(--gold); }
+.tag-se { background: rgba(142,68,173,0.12); color: #8e44ad; }
+.tag-ai { background: rgba(41,128,185,0.12); color: var(--accent2); }
+.tag-theory { background: rgba(192,57,43,0.12); color: var(--accent); }
+.tag-modern { background: rgba(39,174,96,0.12); color: var(--accent3); }
+.tag-research { background: rgba(212,160,23,0.12); color: var(--gold); }
+.tag-extended { background: rgba(142,68,173,0.12); color: #8e44ad; }
+.stage-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.stage-subtitle { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.time-badge { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--ink); color: #fff; border-radius: 8px; padding: 12px 20px; flex-shrink: 0; min-width: 100px; }
+.time-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--gold); line-height: 1; }
+.time-unit { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 1px; margin-top: 3px; }
+.time-hours { font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.25); margin-top: 2px; }
+
+.topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.topic-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; }
+.topic-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.topic-card.ossu-only { border-left: 3px solid var(--accent2); }
+.topic-card.plan-only { border-left: 3px solid var(--accent); }
+.topic-card.merged { border-left: 3px solid var(--accent3); }
+.card-header { padding: 14px 16px 10px; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--surface); }
+.card-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; background: var(--tag-bg); }
+.card-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; flex: 1; }
+.card-origin { font-family: 'IBM Plex Mono', monospace; font-size: 8px; padding: 2px 5px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+.origin-merged { background: rgba(39,174,96,0.1); color: var(--accent3); }
+.origin-ossu { background: rgba(41,128,185,0.1); color: var(--accent2); }
+.origin-plan { background: rgba(192,57,43,0.1); color: var(--accent); }
+.card-body { padding: 10px 16px 14px; }
+.sub-list { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.sub-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); background: var(--tag-bg); padding: 2px 6px; border-radius: 3px; }
+.sources-block { margin-top: 8px; }
+.src-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
+.src-row { display: flex; gap: 6px; align-items: flex-start; font-size: 11px; color: var(--ink2); margin-bottom: 3px; line-height: 1.4; }
+.src-row.new-src { color: var(--accent3); }
+.src-row.new-src::before { content: '+ '; font-weight: 600; }
+.src-icon { flex-shrink: 0; font-size: 10px; margin-top: 1px; }
+.card-project { margin-top: 10px; padding: 8px 10px; background: rgba(212,160,23,0.06); border: 1px solid rgba(212,160,23,0.2); border-radius: 4px; }
+.proj-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 3px; }
+.proj-item { font-size: 11px; color: var(--ink2); margin-bottom: 2px; }
+.proj-item::before { content: '→ '; color: var(--gold); }
+
+.note-box { background: rgba(41,128,185,0.06); border: 1px solid rgba(41,128,185,0.2); border-radius: 6px; padding: 12px 16px; font-size: 12px; color: var(--ink2); margin-bottom: 24px; line-height: 1.6; }
+.note-box strong { color: var(--accent2); }
+
+.capstone-section { margin-top: 64px; background: var(--ink); color: #fff; border-radius: 12px; padding: 48px; position: relative; overflow: hidden; }
+.cap-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+.cap-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.cap-desc { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 32px; max-width: 480px; }
+.cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.cap-item { padding: 14px 16px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.5; background: rgba(255,255,255,0.02); }
+.cap-item::before { content: '⬡ '; color: var(--gold); }
+
+.timeline-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 32px 40px; margin: 48px 0; }
+.tl-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; color: var(--ink); }
+.tl-track { position: relative; padding-left: 24px; }
+.tl-track::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 0; width: 1px; background: var(--border); }
+.tl-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; position: relative; }
+.tl-item::before { content: ''; position: absolute; left: -21px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+.tl-stage { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); min-width: 64px; padding-top: 2px; }
+.tl-name { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; }
+.tl-duration { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); white-space: nowrap; padding-top: 2px; }
+.tl-total { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.tl-total-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+.tl-total-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .hero, .content { padding-left: 24px; padding-right: 24px; }
+  .legend-bar { padding: 12px 24px; }
+  .topics-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="s-title">CS Master<br>Study Plan</div>
+    <div class="s-sub">OSSU × Your Plan</div>
+  </div>
+  <a class="nav-item active" href="#s1"><span class="nav-num">01</span> Pre-CS Foundation</a>
+  <a class="nav-item" href="#s2"><span class="nav-num">02</span> Discrete Math</a>
+  <a class="nav-item" href="#s3"><span class="nav-num">03</span> CS Fundamentals</a>
+  <a class="nav-item" href="#s4"><span class="nav-num">04</span> Core Systems</a>
+  <a class="nav-item" href="#s5"><span class="nav-num">05</span> Theory of CS</a>
+  <a class="nav-item" href="#s6"><span class="nav-num">06</span> Advanced Math</a>
+  <a class="nav-item" href="#s7"><span class="nav-num">07</span> Software Engineering</a>
+  <a class="nav-item" href="#s8"><span class="nav-num">08</span> AI & ML</a>
+  <a class="nav-item" href="#s9"><span class="nav-num">09</span> Modern Technologies</a>
+  <a class="nav-item" href="#s10"><span class="nav-num">10</span> Research Skills</a>
+  <a class="nav-item" href="#s11"><span class="nav-num">11</span> Specialized Fields</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="#capstone"><span class="nav-num">✦</span> Capstone Projects</a>
+  <a class="nav-item" href="#timeline"><span class="nav-num">⏱</span> Timeline</a>
+  <div class="sidebar-footer">~4 years @ 3-4 hrs/day<br>OSSU + Your Plan + All Fields<br>~97% CS coverage</div>
+</nav>
+
+<div class="main">
+  <div class="hero">
+    <div class="hero-label">Complete Computer Science Curriculum — Final Version</div>
+    <h1>The <em>Complete</em><br>CS Study Plan</h1>
+    <div class="hero-desc">OSSU + Your Plan + all missing fields merged into one definitive curriculum. 11 stages covering ~97% of Computer Science. Every topic. Every source. One path.</div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">11</div><div class="stat-label">Stages</div></div>
+      <div class="stat"><div class="stat-num">~4.5</div><div class="stat-label">Years</div></div>
+      <div class="stat"><div class="stat-num">~97%</div><div class="stat-label">CS Coverage</div></div>
+      <div class="stat"><div class="stat-num">3-4h</div><div class="stat-label">Daily</div></div>
+    </div>
+  </div>
+
+  <div class="legend-bar">
+    <div class="legend-item"><div class="l-dot" style="background:var(--accent3)"></div> In both plans (merged)</div>
+    <div class="legend-item"><div class="l-dot" style="background:var(--accent2)"></div> Added from OSSU</div>
+    <div class="legend-item"><div class="l-dot" style="background:var(--accent)"></div> From your plan only</div>
+  </div>
+
+  <div class="content">
+
+    <!-- S1 -->
+    <div class="stage-section" id="s1">
+      <div class="stage-meta">
+        <div class="stage-number">01</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-foundation">Foundation</span>
+          <div class="stage-title">Pre-CS Foundation</div>
+          <div class="stage-subtitle">Build the thinking framework before any code or math</div>
+        </div>
+        <div class="time-badge"><div class="time-num">3</div><div class="time-unit">MONTHS</div><div class="time-hours">~270 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card plan-only">
+          <div class="card-header"><div class="card-icon">🧩</div><div class="card-title">Computational Thinking</div><div class="card-origin origin-plan">Your Plan</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Decomposition</span><span class="sub-tag">Pattern Recognition</span><span class="sub-tag">Abstraction</span><span class="sub-tag">Algorithm Design</span><span class="sub-tag">Evaluation</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> CS Unplugged</div>
+              <div class="src-row"><span class="src-icon">🎥</span> Google Computational Thinking Course</div>
+            </div>
+            <div class="card-project"><div class="proj-label">Project</div><div class="proj-item">Draw a Flowchart for a specific problem and solve it</div></div>
+          </div>
+        </div>
+        <div class="topic-card plan-only">
+          <div class="card-header"><div class="card-icon">➕</div><div class="card-title">Fundamentals of Mathematics</div><div class="card-origin origin-plan">Your Plan</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Basic Algebra</span><span class="sub-tag">Functions</span><span class="sub-tag">Equations</span><span class="sub-tag">Sets</span><span class="sub-tag">Relations</span><span class="sub-tag">Derivatives</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">🎥</span> Khan Academy – Algebra & Functions</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card plan-only">
+          <div class="card-header"><div class="card-icon">⚡</div><div class="card-title">Digital Logic & Boolean Logic</div><div class="card-origin origin-plan">Your Plan</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">AND / OR / NOT / XOR</span><span class="sub-tag">Truth Tables</span><span class="sub-tag">Logic Gates</span><span class="sub-tag">Binary Representation</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Digital Logic Design – Morris Mano</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Neso Academy – Digital Electronics (start here before Mano)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="stage-section" id="s2">
+      <div class="stage-meta">
+        <div class="stage-number">02</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-math">Mathematics</span>
+          <div class="stage-title">Discrete Mathematics</div>
+          <div class="stage-subtitle">The language of CS — must come before algorithms and data structures</div>
+        </div>
+        <div class="time-badge"><div class="time-num">3</div><div class="time-unit">MONTHS</div><div class="time-hours">~270 hrs</div></div>
+      </div>
+      <div class="note-box"><strong>Why here?</strong> Discrete Math is the logical backbone of algorithms and proof writing. Placing it here ensures you understand <em>why</em> algorithms work, not just how to use them.</div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">∑</div><div class="card-title">Discrete Mathematics</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Logic & Proofs</span><span class="sub-tag">Set Theory</span><span class="sub-tag">Functions</span><span class="sub-tag">Counting</span><span class="sub-tag">Graph Theory</span><span class="sub-tag">Combinatorics</span><span class="sub-tag">Probability</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Discrete Mathematics and Its Applications – Rosen</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Discrete Mathematics – Susanna Epp (clearer for beginners)</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Book of Proof – Hammack (free PDF)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> MIT 6.042J – Mathematics for CS (free OCW)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="stage-section" id="s3">
+      <div class="stage-meta">
+        <div class="stage-number">03</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-core">Core</span>
+          <div class="stage-title">CS Fundamentals</div>
+          <div class="stage-subtitle">Programming, data structures, algorithms — the practical core</div>
+        </div>
+        <div class="time-badge"><div class="time-num">6</div><div class="time-unit">MONTHS</div><div class="time-hours">~540 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">💻</div><div class="card-title">Introduction to Programming</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Python / C</span><span class="sub-tag">Variables</span><span class="sub-tag">Conditions</span><span class="sub-tag">Loops</span><span class="sub-tag">Functions</span><span class="sub-tag">Lists</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">🎥</span> CS50x – Harvard University</div>
+              <div class="src-row"><span class="src-icon">📘</span> Python Crash Course – Eric Matthes</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> How to Code: Simple Data – UBC (OSSU)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🏗️</div><div class="card-title">Object-Oriented Programming</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Encapsulation</span><span class="sub-tag">Inheritance</span><span class="sub-tag">Polymorphism</span><span class="sub-tag">Abstraction</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Head First Java – Sierra & Bates</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🌲</div><div class="card-title">Data Structures</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Arrays</span><span class="sub-tag">Linked Lists</span><span class="sub-tag">Stacks & Queues</span><span class="sub-tag">Trees</span><span class="sub-tag">Graphs</span><span class="sub-tag">Hash Tables</span><span class="sub-tag">Big O</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Data Structures and Algorithms in Python – Goodrich</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> UC San Diego DSA Specialization – Coursera (OSSU)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">⚙️</div><div class="card-title">Algorithms Analysis</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Sorting</span><span class="sub-tag">Searching</span><span class="sub-tag">Recursion</span><span class="sub-tag">Divide & Conquer</span><span class="sub-tag">Dynamic Programming</span><span class="sub-tag">Greedy</span><span class="sub-tag">Complexity O/Ω/Θ</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Introduction to Algorithms – CLRS</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Algorithms – Princeton/Sedgewick (Coursera)</div>
+              <div class="src-row new-src"><span class="src-icon">💡</span> LeetCode Easy → Medium</div>
+              <div class="src-row"><span class="src-icon">💡</span> Competitive Programming</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">λ</div><div class="card-title">Functional Programming</div><div class="card-origin origin-ossu">OSSU</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Pure Functions</span><span class="sub-tag">Immutability</span><span class="sub-tag">Higher-Order Functions</span><span class="sub-tag">Recursion Patterns</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Programming Languages (A/B/C) – Dan Grossman, UW (OSSU)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4 -->
+    <div class="stage-section" id="s4">
+      <div class="stage-meta">
+        <div class="stage-number">04</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-systems">Systems</span>
+          <div class="stage-title">Core Systems</div>
+          <div class="stage-subtitle">How computers actually work — architecture, OS, networks, databases</div>
+        </div>
+        <div class="time-badge"><div class="time-num">7</div><div class="time-unit">MONTHS</div><div class="time-hours">~630 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🖥️</div><div class="card-title">Computer Architecture</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">CPU</span><span class="sub-tag">Memory Hierarchy</span><span class="sub-tag">Instructions</span><span class="sub-tag">Assembly Basics</span><span class="sub-tag">Pipelining</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Computer Organization and Design – Patterson & Hennessy</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> CS:APP – Bryant & O'Hallaron (deep academic)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Nand2Tetris – Build a computer from scratch (OSSU)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🔧</div><div class="card-title">Operating Systems</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Processes</span><span class="sub-tag">Threads</span><span class="sub-tag">Memory Management</span><span class="sub-tag">File Systems</span><span class="sub-tag">Scheduling</span><span class="sub-tag">Concurrency</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Operating System Concepts – Silberschatz</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> OSTEP – Arpaci-Dusseau (free PDF, best practical OS book)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🐧</div><div class="card-title">Systems & Linux Programming</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Linux Commands</span><span class="sub-tag">Bash Scripting</span><span class="sub-tag">System Calls</span><span class="sub-tag">Pointers</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> The Linux Command Line – Shotts</div>
+              <div class="src-row"><span class="src-icon">📘</span> The Linux Programming Interface – Kerrisk</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🗄️</div><div class="card-title">Databases</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">SQL</span><span class="sub-tag">Schema Design</span><span class="sub-tag">Normalisation</span><span class="sub-tag">Transactions</span><span class="sub-tag">NoSQL / MongoDB</span><span class="sub-tag">Indexing</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Database System Concepts – Silberschatz</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> CMU 15-445 – Andy Pavlo (free YouTube, best DB course)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🌐</div><div class="card-title">Computer Networks</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">OSI Model</span><span class="sub-tag">TCP/IP</span><span class="sub-tag">Routing</span><span class="sub-tag">DNS</span><span class="sub-tag">HTTP/HTTPS</span><span class="sub-tag">Sockets</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Computer Networking: A Top-Down Approach – Kurose & Ross</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">☁️</div><div class="card-title">Distributed Systems</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Consistency</span><span class="sub-tag">CAP Theorem</span><span class="sub-tag">Replication</span><span class="sub-tag">Fault Tolerance</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Designing Data-Intensive Applications – Kleppmann</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card plan-only">
+          <div class="card-header"><div class="card-icon">🔐</div><div class="card-title">Encryption, Hashing & Authentication</div><div class="card-origin origin-plan">Your Plan</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Symmetric / Asymmetric</span><span class="sub-tag">Hash Functions</span><span class="sub-tag">JWT / OAuth</span></div>
+          </div>
+        </div>
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🖼️</div><div class="card-title">Computer Graphics</div><div class="card-origin origin-ossu">OSSU</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Rasterization</span><span class="sub-tag">Ray Tracing</span><span class="sub-tag">Shaders</span><span class="sub-tag">OpenGL Basics</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> UC San Diego: Computer Graphics – edX (OSSU)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S5 -->
+    <div class="stage-section" id="s5">
+      <div class="stage-meta">
+        <div class="stage-number">05</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-theory">Theory</span>
+          <div class="stage-title">Theory of Computer Science</div>
+          <div class="stage-subtitle">The deepest intellectual layer — what separates programmers from scientists</div>
+        </div>
+        <div class="time-badge"><div class="time-num">4</div><div class="time-unit">MONTHS</div><div class="time-hours">~360 hrs</div></div>
+      </div>
+      <div class="note-box"><strong>Why this stage?</strong> This is what was missing from your original plan. Automata, computability, and compiler theory are what make CS a science — not just engineering. Essential for any research path.</div>
+      <div class="topics-grid">
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🤖</div><div class="card-title">Formal Languages & Automata</div><div class="card-origin origin-ossu">OSSU</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Finite Automata</span><span class="sub-tag">Regular Languages</span><span class="sub-tag">Context-Free Grammars</span><span class="sub-tag">Pushdown Automata</span><span class="sub-tag">Turing Machines</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Introduction to the Theory of Computation – Sipser</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Stanford Automata – Jeffrey Ullman (Coursera)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">∞</div><div class="card-title">Computability & Complexity</div><div class="card-origin origin-ossu">OSSU</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Halting Problem</span><span class="sub-tag">Decidability</span><span class="sub-tag">P vs NP</span><span class="sub-tag">NP-Completeness</span><span class="sub-tag">Reduction</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Introduction to the Theory of Computation – Sipser (same book)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🔨</div><div class="card-title">Compiler Design</div><div class="card-origin origin-ossu">OSSU</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Lexing</span><span class="sub-tag">Parsing</span><span class="sub-tag">AST</span><span class="sub-tag">Semantic Analysis</span><span class="sub-tag">Code Generation</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Crafting Interpreters – Nystrom (free online, practical)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Stanford Compilers – Alex Aiken (Coursera)</div>
+            </div>
+            <div class="card-project"><div class="proj-label">Project</div><div class="proj-item">Build a simple interpreter or compiler from scratch</div></div>
+          </div>
+        </div>
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">⚡</div><div class="card-title">Parallel & Concurrent Programming</div><div class="card-origin origin-ossu">OSSU</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Threads</span><span class="sub-tag">Locks & Semaphores</span><span class="sub-tag">Deadlocks</span><span class="sub-tag">Parallel Algorithms</span><span class="sub-tag">Message Passing</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Parallel Programming – EPFL (Coursera, OSSU)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S6 -->
+    <div class="stage-section" id="s6">
+      <div class="stage-meta">
+        <div class="stage-number">06</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-math">Mathematics</span>
+          <div class="stage-title">Advanced Mathematics</div>
+          <div class="stage-subtitle">Essential for AI, research, and complex algorithm design</div>
+        </div>
+        <div class="time-badge"><div class="time-num">5</div><div class="time-unit">MONTHS</div><div class="time-hours">~450 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">📐</div><div class="card-title">Linear Algebra</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Matrices</span><span class="sub-tag">Vectors</span><span class="sub-tag">Eigenvalues</span><span class="sub-tag">Linear Transformations</span><span class="sub-tag">SVD</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Linear Algebra Done Right – Axler</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> MIT 18.06 – Gilbert Strang (free YouTube — start here)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">∫</div><div class="card-title">Calculus</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Derivatives</span><span class="sub-tag">Integrals</span><span class="sub-tag">Multivariable</span><span class="sub-tag">Partial Derivatives</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">🎥</span> Khan Academy Calculus</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> MIT 18.01 & 18.02 – OpenCourseWare (free)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🎲</div><div class="card-title">Probability & Statistics</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Distributions</span><span class="sub-tag">Variance</span><span class="sub-tag">Regression</span><span class="sub-tag">Conditional Probability</span><span class="sub-tag">Bayesian</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Probability and Statistics for Engineers and Scientists</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Harvard Stat 110 – Blitzstein (free YouTube)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">📉</div><div class="card-title">Numerical Methods & Optimization</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Root Finding</span><span class="sub-tag">Numerical Integration</span><span class="sub-tag">Gradient Descent</span><span class="sub-tag">Convex Optimization</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Numerical Methods for Engineers – Chapra</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S7 -->
+    <div class="stage-section" id="s7">
+      <div class="stage-meta">
+        <div class="stage-number">07</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-se">Engineering</span>
+          <div class="stage-title">Software Engineering & Design</div>
+          <div class="stage-subtitle">Write professional, scalable systems — before building AI on top of them</div>
+        </div>
+        <div class="time-badge"><div class="time-num">3</div><div class="time-unit">MONTHS</div><div class="time-hours">~270 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Software Engineering Concepts</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Software Life Cycle</span><span class="sub-tag">Agile / Scrum</span><span class="sub-tag">Git & GitHub</span><span class="sub-tag">Unit Testing</span><span class="sub-tag">Integration Testing</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Software Engineering – Sommerville</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🧩</div><div class="card-title">Design Patterns</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Singleton</span><span class="sub-tag">Factory</span><span class="sub-tag">Observer</span><span class="sub-tag">MVC</span><span class="sub-tag">Strategy</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Design Patterns – GoF</div>
+            </div>
+            <div class="card-project"><div class="proj-label">Project</div><div class="proj-item">Medium-sized project in Java or Python applying multiple patterns</div></div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">✨</div><div class="card-title">Clean Code & Architecture</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">SOLID Principles</span><span class="sub-tag">Refactoring</span><span class="sub-tag">Code Smells</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Clean Code – Robert C. Martin</div>
+              <div class="src-row"><span class="src-icon">📘</span> Clean Architecture – Robert C. Martin</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🏛️</div><div class="card-title">Software Architecture</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Microservices</span><span class="sub-tag">REST APIs</span><span class="sub-tag">Event-Driven</span><span class="sub-tag">Monolith vs Distributed</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S8 -->
+    <div class="stage-section" id="s8">
+      <div class="stage-meta">
+        <div class="stage-number">08</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-ai">AI / ML</span>
+          <div class="stage-title">Artificial Intelligence & Machine Learning</div>
+          <div class="stage-subtitle">Now the math and systems foundation makes every concept click</div>
+        </div>
+        <div class="time-badge"><div class="time-num">6</div><div class="time-unit">MONTHS</div><div class="time-hours">~540 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🤖</div><div class="card-title">Artificial Intelligence</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Search Algorithms</span><span class="sub-tag">Logic & Inference</span><span class="sub-tag">Planning</span><span class="sub-tag">Knowledge Representation</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Artificial Intelligence: A Modern Approach – Russell & Norvig</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Machine Learning</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Supervised</span><span class="sub-tag">Unsupervised</span><span class="sub-tag">Reinforcement</span><span class="sub-tag">Classification</span><span class="sub-tag">Regression</span><span class="sub-tag">EDA</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Hands-On Machine Learning – Géron</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> CS229 – Andrew Ng, Stanford (full YouTube)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🧠</div><div class="card-title">Deep Learning</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Neural Networks</span><span class="sub-tag">CNN</span><span class="sub-tag">RNN</span><span class="sub-tag">Transformers</span><span class="sub-tag">Attention</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Deep Learning – Ian Goodfellow</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> CS231n – Stanford (free YouTube)</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">💬</div><div class="card-title">NLP</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Text Analysis</span><span class="sub-tag">Machine Translation</span><span class="sub-tag">Language Models</span><span class="sub-tag">BERT / GPT</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Speech and Language Processing – Jurafsky & Martin</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S9 -->
+    <div class="stage-section" id="s9">
+      <div class="stage-meta">
+        <div class="stage-number">09</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-modern">Modern</span>
+          <div class="stage-title">Modern Technologies</div>
+          <div class="stage-subtitle">Competitive edge in the job market and advanced projects</div>
+        </div>
+        <div class="time-badge"><div class="time-num">3</div><div class="time-unit">MONTHS</div><div class="time-hours">~270 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🐳</div><div class="card-title">DevOps & Cloud Computing</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Docker</span><span class="sub-tag">Kubernetes</span><span class="sub-tag">CI/CD</span><span class="sub-tag">Terraform</span><span class="sub-tag">AWS / Azure</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> The DevOps Handbook</div>
+              <div class="src-row"><span class="src-icon">📘</span> Kubernetes Up and Running</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🛡️</div><div class="card-title">Cybersecurity</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Encryption</span><span class="sub-tag">Authentication</span><span class="sub-tag">Ethical Hacking</span><span class="sub-tag">Penetration Testing</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Computer Security – Stallings</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">📦</div><div class="card-title">Applied AI & Data Engineering</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Data Pipelines</span><span class="sub-tag">ETL</span><span class="sub-tag">Big Data</span><span class="sub-tag">Apache Spark</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Designing Data-Intensive Applications – Kleppmann</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card plan-only">
+          <div class="card-header"><div class="card-icon">⚛️</div><div class="card-title">Quantum Computing</div><div class="card-origin origin-plan">Your Plan</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Qubits</span><span class="sub-tag">Quantum Circuits</span><span class="sub-tag">Qiskit</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> IBM Qiskit Textbook (free online)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S10 -->
+    <div class="stage-section" id="s10">
+      <div class="stage-meta">
+        <div class="stage-number">10</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-research">Research</span>
+          <div class="stage-title">Professional & Research Skills</div>
+          <div class="stage-subtitle">The stage that transforms you from student to scientist</div>
+        </div>
+        <div class="time-badge"><div class="time-num">2</div><div class="time-unit">MONTHS</div><div class="time-hours">~180 hrs</div></div>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">✍️</div><div class="card-title">Technical Writing</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">🎥</span> Google Technical Writing Course (free)</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Writing for Computer Science – Zobel</div>
+              <div class="src-row new-src"><span class="src-icon">💡</span> LaTeX for academic paper writing</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">🧪</div><div class="card-title">Critical Thinking & Problem Solving</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Think Like a Programmer – Anton Spraul</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">📅</div><div class="card-title">Project Management & Self-Learning</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Deep Work – Cal Newport</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card merged">
+          <div class="card-header"><div class="card-icon">⚖️</div><div class="card-title">Computer Ethics</div><div class="card-origin origin-merged">Merged</div></div>
+          <div class="card-body">
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row"><span class="src-icon">📘</span> Ethics for the Information Age – Quinn</div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">📄</div><div class="card-title">Reading Research Papers</div><div class="card-origin origin-ossu">OSSU</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">How to read a paper</span><span class="sub-tag">Literature review</span><span class="sub-tag">arxiv.org</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> "How to Read a Paper" – S. Keshav (free PDF, 3 pages)</div>
+              <div class="src-row new-src"><span class="src-icon">💡</span> Read 1 paper/week on arxiv.org</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S11 -->
+    <div class="stage-section" id="s11">
+      <div class="stage-meta">
+        <div class="stage-number">11</div>
+        <div class="stage-info">
+          <span class="stage-tag tag-research">Extended Fields</span>
+          <div class="stage-title">Advanced & Specialized Fields</div>
+          <div class="stage-subtitle">The missing 10% — specialized domains that complete full CS coverage</div>
+        </div>
+        <div class="time-badge"><div class="time-num">6</div><div class="time-unit">MONTHS</div><div class="time-hours">~540 hrs</div></div>
+      </div>
+      <div class="note-box"><strong>These fields were missing from all previous versions.</strong> You don't need to master all of them — but exposure to each is what separates a well-rounded CS education from a partial one. Choose 2-3 to go deep after finishing stages 1-10.</div>
+      <div class="topics-grid">
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🖱️</div><div class="card-title">Human-Computer Interaction (HCI)</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">User Research</span><span class="sub-tag">Usability Testing</span><span class="sub-tag">Prototyping</span><span class="sub-tag">Accessibility</span><span class="sub-tag">Cognitive Load</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> The Design of Everyday Things – Don Norman</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Human-Computer Interaction – Georgia Tech (Udacity)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">👁️</div><div class="card-title">Computer Vision</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Image Processing</span><span class="sub-tag">Feature Detection</span><span class="sub-tag">Object Detection</span><span class="sub-tag">Segmentation</span><span class="sub-tag">YOLO / OpenCV</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Computer Vision: Algorithms and Applications – Szeliski (free PDF)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> CS231n – Stanford (already in Stage 08, go deeper here)</div>
+            </div>
+            <div class="card-project"><div class="proj-label">Project</div><div class="proj-item">Build a real-time object detection system using OpenCV + YOLO</div></div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🤖</div><div class="card-title">Robotics</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Kinematics</span><span class="sub-tag">Path Planning</span><span class="sub-tag">Sensors & Actuators</span><span class="sub-tag">ROS</span><span class="sub-tag">Control Systems</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Robotics Specialization – University of Pennsylvania (Coursera)</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Introduction to Robotics – John Craig</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🧬</div><div class="card-title">Bioinformatics & Computational Biology</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Sequence Alignment</span><span class="sub-tag">DNA Analysis</span><span class="sub-tag">Phylogenetics</span><span class="sub-tag">Protein Structure</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Bioinformatics Specialization – UC San Diego (Coursera)</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Bioinformatics Algorithms – Compeau & Pevzner (free online)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">📡</div><div class="card-title">Information Theory</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Entropy</span><span class="sub-tag">Data Compression</span><span class="sub-tag">Channel Capacity</span><span class="sub-tag">Coding Theory</span><span class="sub-tag">Error Correction</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Elements of Information Theory – Cover & Thomas</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Information Theory – Khan Academy + MIT OCW 6.441</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">✅</div><div class="card-title">Formal Verification & Program Correctness</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Hoare Logic</span><span class="sub-tag">Model Checking</span><span class="sub-tag">Type Systems</span><span class="sub-tag">Theorem Provers</span><span class="sub-tag">Coq / Lean</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Software Foundations – Pierce et al. (free online, Coq-based)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Formal Verification – MIT 6.820 (OCW)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🔤</div><div class="card-title">Programming Language Theory (PLT)</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Type Theory</span><span class="sub-tag">Lambda Calculus</span><span class="sub-tag">Semantics</span><span class="sub-tag">Language Design</span><span class="sub-tag">Category Theory basics</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Types and Programming Languages – Pierce (TAPL)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Programming Languages – Dan Grossman, UW (deeper than Stage 03)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">📱</div><div class="card-title">Mobile Development</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">iOS / Android</span><span class="sub-tag">React Native</span><span class="sub-tag">Flutter</span><span class="sub-tag">Mobile UX</span><span class="sub-tag">App Store deployment</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> CS193p – Stanford iOS Development (free on YouTube)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Flutter & Dart – The Complete Guide (Udemy)</div>
+            </div>
+            <div class="card-project"><div class="proj-label">Project</div><div class="proj-item">Build and publish a complete mobile app to the App Store or Play Store</div></div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🔬</div><div class="card-title">Advanced Security & Forensics</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Malware Analysis</span><span class="sub-tag">Digital Forensics</span><span class="sub-tag">Reverse Engineering</span><span class="sub-tag">Network Security</span><span class="sub-tag">CTF Competitions</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> Open Security Training 2 (free, deep technical)</div>
+              <div class="src-row new-src"><span class="src-icon">💡</span> PicoCTF + HackTheBox for practice</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🎮</div><div class="card-title">Game Development</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Game Loop</span><span class="sub-tag">Physics Engine</span><span class="sub-tag">Unity / Unreal</span><span class="sub-tag">Game AI</span><span class="sub-tag">Shader Programming</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Game Programming Patterns – Robert Nystrom (free online)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> CS50G – Harvard Game Development (free)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Data Science & Visualization</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">Pandas / NumPy</span><span class="sub-tag">Matplotlib / Seaborn</span><span class="sub-tag">Statistical Analysis</span><span class="sub-tag">Dashboards</span><span class="sub-tag">Storytelling with Data</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Python for Data Analysis – Wes McKinney</div>
+              <div class="src-row new-src"><span class="src-icon">📘</span> Storytelling with Data – Cole Nussbaumer Knaflic</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-card ossu-only">
+          <div class="card-header"><div class="card-icon">🌐</div><div class="card-title">Web Development (Full Stack)</div><div class="card-origin origin-ossu">New</div></div>
+          <div class="card-body">
+            <div class="sub-list"><span class="sub-tag">HTML / CSS / JS</span><span class="sub-tag">React / Vue</span><span class="sub-tag">Node.js</span><span class="sub-tag">REST & GraphQL</span><span class="sub-tag">Authentication</span><span class="sub-tag">Deployment</span></div>
+            <div class="sources-block"><div class="src-label">Sources</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> CS50W – Harvard Web Development (free)</div>
+              <div class="src-row new-src"><span class="src-icon">🎥</span> The Odin Project (free, full curriculum)</div>
+            </div>
+            <div class="card-project"><div class="proj-label">Project</div><div class="proj-item">Build and deploy a full-stack web application with auth and database</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CAPSTONE -->
+    <div class="capstone-section" id="capstone">
+      <div class="cap-label">Final Stage</div>
+      <div class="cap-title">Capstone Projects</div>
+      <div class="cap-desc">A comprehensive practical application that ties together everything you have learned.</div>
+      <div class="cap-grid">
+        <div class="cap-item">Build a mini operating system</div>
+        <div class="cap-item">Design a simple compiler or interpreter</div>
+        <div class="cap-item">Create a complete full-stack web application</div>
+        <div class="cap-item">AI project (image classification / text translation)</div>
+        <div class="cap-item">Distributed system or cloud-based application</div>
+        <div class="cap-item">Real-time object detection with Computer Vision</div>
+        <div class="cap-item">Build and publish a mobile app</div>
+        <div class="cap-item">Contribute to an open-source project</div>
+        <div class="cap-item">Write and publish a research paper</div>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline-bar" id="timeline">
+      <div class="tl-title">Full Timeline — 3-4 hrs / day</div>
+      <div class="tl-track">
+        <div class="tl-item"><div class="tl-stage">Stage 01</div><div class="tl-name">Pre-CS Foundation</div><div class="tl-duration">3 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 02</div><div class="tl-name">Discrete Mathematics</div><div class="tl-duration">3 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 03</div><div class="tl-name">CS Fundamentals</div><div class="tl-duration">6 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 04</div><div class="tl-name">Core Systems</div><div class="tl-duration">7 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 05</div><div class="tl-name">Theory of Computer Science</div><div class="tl-duration">4 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 06</div><div class="tl-name">Advanced Mathematics</div><div class="tl-duration">5 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 07</div><div class="tl-name">Software Engineering & Design</div><div class="tl-duration">3 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 08</div><div class="tl-name">AI & Machine Learning</div><div class="tl-duration">6 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 09</div><div class="tl-name">Modern Technologies</div><div class="tl-duration">3 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 10</div><div class="tl-name">Research & Professional Skills</div><div class="tl-duration">2 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Stage 11</div><div class="tl-name">Advanced & Specialized Fields</div><div class="tl-duration">6 months</div></div>
+        <div class="tl-item"><div class="tl-stage">Final</div><div class="tl-name">Capstone Projects</div><div class="tl-duration">Ongoing</div></div>
+      </div>
+      <div class="tl-total">
+        <div class="tl-total-label">Total @ 3-4 hrs/day</div>
+        <div class="tl-total-val">~48 months (4 years)</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const sections = document.querySelectorAll('[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
